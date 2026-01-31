@@ -1,0 +1,101 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Team {
+    id               String     @id @default(cuid())
+    teamName         String     @unique
+    institution      String
+    teamMembers      String[]
+    problemStatement String?
+    techStack        String[]
+    status           TeamStatus @default(PENDING)
+    paymentProof     String?
+    submissionLink   String?
+    createdAt        DateTime   @default(now())
+    updatedAt        DateTime   @updatedAt
+
+    // Relations
+    leaderId String @unique
+    leader   Leader @relation(fields: [leaderId], references: [id], onDelete: Cascade)
+
+    @@index([teamName])
+    @@index([status])
+}
+
+model Leader {
+    id        String   @id @default(cuid())
+    fullName  String
+    email     String   @unique
+    phone     String
+    password  String
+    studentId String
+    major     String
+    year      Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // Relations
+    team Team?
+
+    @@index([email])
+    @@index([studentId])
+}
+
+model Admin {
+    id        String    @id @default(cuid())
+    email     String    @unique
+    password  String
+    fullName  String
+    role      AdminRole @default(SUPER_ADMIN)
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+
+    @@index([email])
+    @@index([role])
+}
+
+model Timeline {
+    id          String       @id @default(cuid())
+    title       String
+    description String
+    startDate   DateTime
+    endDate     DateTime
+    type        TimelineType
+    isActive    Boolean      @default(false)
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
+
+    @@index([type])
+    @@index([isActive])
+    @@index([startDate, endDate])
+}
+
+enum TeamStatus {
+    PENDING
+    REGISTERED
+    APPROVED
+    REJECTED
+    SUBMITTED
+    FINALIST
+    WINNER
+}
+
+enum AdminRole {
+    SUPER_ADMIN
+    ADMIN
+    JURY
+}
+
+enum TimelineType {
+    REGISTRATION
+    SUBMISSION
+    REVIEW
+    FINAL
+    ANNOUNCEMENT
+}

@@ -1,5 +1,7 @@
 import {Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
+import Register from "./Pages/Register";
+
 
 
 export default function App() {
@@ -7,6 +9,7 @@ export default function App() {
  
     <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/register" element={<Register/>} />
     </Routes>
 
   }</>;

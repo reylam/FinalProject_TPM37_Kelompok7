@@ -1,0 +1,31 @@
+/* .carousel{
+    background-color: white;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+   display: flex;
+} */
+.items1{
+    display: flex;
+   
+    animation-delay: 3s;
+ animation: infiniteScroll 12s linear infinite ;
+}
+/* .items2{
+    display: flex;
+    gap: 80px;
+ animation: infiniteScroll2 5s linear infinite;
+} */
+
+@keyframes infiniteScroll {
+  from {
+    transform: translateX(50px);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+/* @keyframes infiniteScroll2 {
+    0% { transform: translateX(-120px); }
+  100% { transform: translateX(calc(-380px * 3)); }
+} */
